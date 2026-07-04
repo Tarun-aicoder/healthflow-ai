@@ -1,20 +1,26 @@
 import React from 'react';
 import DashboardCard from '@/components/DashboardCard';
-import { Calendar, AlertCircle, DollarSign, Stethoscope, ArrowRight, Zap, CheckCircle2 } from 'lucide-react';
+import { Calendar, AlertCircle, DollarSign, Stethoscope, ArrowRight, Zap, CheckCircle2, Activity } from 'lucide-react';
 import { kpis, insights, utilization, recentActions } from '@/lib/dummyData';
 
 export default function Dashboard() {
   return (
-    <div className="min-h-screen bg-zinc-50/50 p-8 w-full">
-      <div className="max-w-6xl mx-auto space-y-8">
-        
-        <header>
-          <h1 className="text-2xl font-semibold text-zinc-900">Hospital Operations Copilot</h1>
-          <p className="text-zinc-500 mt-1">Good morning! Here is your predictive overview for today.</p>
+    <div className="min-h-screen bg-slate-950 p-6 md:p-8 w-full">
+      <div className="max-w-7xl mx-auto">
+
+        {/* Header Section */}
+        <header className="mb-10">
+          <div className="flex items-baseline gap-3 mb-2">
+            <div className="flex items-center gap-2">
+              <Activity className="w-8 h-8 text-blue-500" />
+              <h1 className="text-4xl font-bold text-white">Operations Hub</h1>
+            </div>
+          </div>
+          <p className="text-slate-400 text-lg">AI-powered intelligence for healthcare operations</p>
         </header>
 
         {/* KPI Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
           <DashboardCard
             title="Total Appointments"
             value={kpis.appointments}
@@ -47,35 +53,39 @@ export default function Dashboard() {
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* AI Insights & Actions */}
-          <div className="col-span-2 space-y-6">
-            <div className="bg-white rounded-xl border border-zinc-200 shadow-sm overflow-hidden">
-              <div className="border-b border-zinc-100 px-6 py-4 flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-zinc-900 flex items-center gap-2">
-                  <Zap className="w-5 h-5 text-indigo-500" /> AI Insights
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* AI Insights Card */}
+          <div className="lg:col-span-2">
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+              <div className="border-b border-slate-800 px-8 py-6 flex items-center justify-between">
+                <h2 className="text-xl font-bold text-white flex items-center gap-3">
+                  <div className="p-2 bg-blue-500/20 rounded-lg">
+                    <Zap className="w-5 h-5 text-blue-400" />
+                  </div>
+                  AI Insights
                 </h2>
-                <button className="text-sm font-medium text-indigo-600 hover:text-indigo-700">View All</button>
+                <button className="text-sm font-semibold text-blue-400 hover:text-blue-300 transition-colors">View All</button>
               </div>
-              <div className="divide-y divide-zinc-100">
+              <div className="divide-y divide-slate-800">
                 {insights.map((insight) => (
-                  <div key={insight.id} className="p-6 hover:bg-zinc-50/50 transition-colors">
+                  <div key={insight.id} className="p-8 hover:bg-slate-800/50 transition-colors duration-200">
                     <div className="flex items-start gap-4">
-                      <div className={`mt-0.5 p-2 rounded-full ${
-                        insight.type === 'warning' ? 'bg-red-100 text-red-600' :
-                        insight.type === 'opportunity' ? 'bg-amber-100 text-amber-600' :
-                        'bg-emerald-100 text-emerald-600'
+                      <div className={`mt-1 p-3 rounded-xl flex-shrink-0 ${
+                        insight.type === 'warning' ? 'bg-red-500/20 text-red-400' :
+                        insight.type === 'opportunity' ? 'bg-amber-500/20 text-amber-400' :
+                        'bg-emerald-500/20 text-emerald-400'
                       }`}>
-                        {insight.type === 'warning' && <AlertCircle className="w-4 h-4" />}
-                        {insight.type === 'opportunity' && <Calendar className="w-4 h-4" />}
-                        {insight.type === 'success' && <CheckCircle2 className="w-4 h-4" />}
+                        {insight.type === 'warning' && <AlertCircle className="w-5 h-5" />}
+                        {insight.type === 'opportunity' && <Calendar className="w-5 h-5" />}
+                        {insight.type === 'success' && <CheckCircle2 className="w-5 h-5" />}
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-sm font-semibold text-zinc-900">{insight.title}</h3>
-                        <p className="text-sm text-zinc-500 mt-1">{insight.description}</p>
+                        <h3 className="text-base font-bold text-white">{insight.title}</h3>
+                        <p className="text-slate-400 mt-2 leading-relaxed">{insight.description}</p>
                       </div>
-                      <button className="flex items-center text-sm font-medium text-zinc-400 hover:text-zinc-600 transition-colors">
-                        Action <ArrowRight className="w-4 h-4 ml-1" />
+                      <button className="flex items-center gap-2 text-sm font-semibold text-blue-400 hover:text-blue-300 transition-colors flex-shrink-0 mt-1">
+                        Action <ArrowRight className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
@@ -84,23 +94,24 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Department Utilization & Recent Actions */}
+          {/* Right Column */}
           <div className="space-y-6">
-            <div className="bg-white rounded-xl border border-zinc-200 shadow-sm p-6">
-              <h2 className="text-lg font-semibold text-zinc-900 mb-6">Department Utilization</h2>
-              <div className="space-y-5">
+            {/* Department Utilization */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-xl">
+              <h2 className="text-xl font-bold text-white mb-8">Department Utilization</h2>
+              <div className="space-y-7">
                 {utilization.map((dept) => {
                   const percentage = Math.round((dept.current / dept.capacity) * 100);
                   const isHigh = percentage >= 90;
                   return (
                     <div key={dept.department}>
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-sm font-medium text-zinc-700">{dept.department}</span>
-                        <span className="text-sm text-zinc-500">{percentage}%</span>
+                      <div className="flex justify-between items-end mb-3">
+                        <span className="text-sm font-semibold text-slate-200">{dept.department}</span>
+                        <span className={`text-lg font-bold ${isHigh ? 'text-red-400' : 'text-blue-400'}`}>{percentage}%</span>
                       </div>
-                      <div className="w-full bg-zinc-100 rounded-full h-2 overflow-hidden">
-                        <div 
-                          className={`h-2 rounded-full transition-all duration-500 ${isHigh ? 'bg-red-500' : 'bg-indigo-500'}`}
+                      <div className="w-full bg-slate-800 rounded-full h-3 overflow-hidden">
+                        <div
+                          className={`h-3 rounded-full transition-all duration-500 ${isHigh ? 'bg-gradient-to-r from-red-500 to-red-600' : 'bg-gradient-to-r from-blue-500 to-blue-600'}`}
                           style={{ width: `${percentage}%` }}
                         />
                       </div>
@@ -110,15 +121,16 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl border border-zinc-200 shadow-sm p-6">
-              <h2 className="text-lg font-semibold text-zinc-900 mb-4">Recent Actions</h2>
-              <div className="space-y-4">
+            {/* Recent Actions */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-xl">
+              <h2 className="text-xl font-bold text-white mb-6">Recent Activity</h2>
+              <div className="space-y-5">
                 {recentActions.map((action) => (
-                  <div key={action.id} className="flex flex-col gap-1">
-                    <p className="text-sm text-zinc-700">{action.action}</p>
-                    <div className="flex items-center text-xs text-zinc-400 gap-2">
+                  <div key={action.id} className="flex flex-col gap-2 pb-5 border-b border-slate-800 last:border-b-0 last:pb-0">
+                    <p className="text-sm font-medium text-slate-100">{action.action}</p>
+                    <div className="flex items-center text-xs text-slate-500 gap-2">
                       <span>{action.time}</span>
-                      <span>•</span>
+                      <span className="text-slate-700">•</span>
                       <span>{action.user}</span>
                     </div>
                   </div>
